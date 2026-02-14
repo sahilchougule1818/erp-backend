@@ -10,6 +10,8 @@ const samplingRoutes = require('./routes/sampling');
 const subcultureRoutes = require('./routes/subculturing');
 const incubationRoutes = require('./routes/incubation');
 const qualityControlRoutes = require('./routes/cleaningRecord');
+const deepCleaningRoutes = require('./routes/deepCleaningRecord');
+const mortalityRoutes = require('./routes/mortalityRecord');
 const dashboardRoutes = require('./routes/dashboard');
 const operatorsRoutes = require('./routes/operators');
 
@@ -33,6 +35,8 @@ app.use('/api/indoor/sampling', samplingRoutes);
 app.use('/api/indoor/subculturing', subcultureRoutes);
 app.use('/api/indoor/incubation', incubationRoutes);
 app.use('/api/indoor/cleaning-record', qualityControlRoutes);
+app.use('/api/indoor/deep-cleaning-record', deepCleaningRoutes);
+app.use('/api/indoor/mortality-record', mortalityRoutes);
 app.use('/api/indoor/dashboard', dashboardRoutes);
 
 app.get('/', (req, res) => {

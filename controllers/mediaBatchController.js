@@ -11,12 +11,12 @@ const getMediaBatches = async (req, res) => {
 
 const createMediaBatch = async (req, res) => {
   try {
-    const { date, mediaCode, operator, quantity, bottles, contamination } = req.body;
+    const { date, mediaCode, operatorName, quantity, bottles, contamination } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO media_batches (date, media_code, operator, quantity, bottles, contamination) 
+      `INSERT INTO media_batches (date, media_code, operator_name, quantity, bottles, contamination) 
        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [date, mediaCode, operator, quantity, bottles, contamination]
+      [date, mediaCode, operatorName, quantity, bottles, contamination]
     );
     
     res.status(201).json(result.rows[0]);
@@ -28,13 +28,13 @@ const createMediaBatch = async (req, res) => {
 const updateMediaBatch = async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, mediaCode, operator, quantity, bottles, contamination } = req.body;
+    const { date, mediaCode, operatorName, quantity, bottles, contamination } = req.body;
     
     const result = await pool.query(
       `UPDATE media_batches 
-       SET date=$1, media_code=$2, operator=$3, quantity=$4, bottles=$5, contamination=$6, updated_at=CURRENT_TIMESTAMP 
+       SET date=$1, media_code=$2, operator_name=$3, quantity=$4, bottles=$5, contamination=$6, updated_at=CURRENT_TIMESTAMP 
        WHERE id=$7 RETURNING *`,
-      [date, mediaCode, operator, quantity, bottles, contamination, id]
+      [date, mediaCode, operatorName, quantity, bottles, contamination, id]
     );
     
     if (result.rows.length === 0) {

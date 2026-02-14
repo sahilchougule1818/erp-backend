@@ -11,12 +11,12 @@ const getSubculturing = async (req, res) => {
 
 const createSubculturing = async (req, res) => {
   try {
-    const { transferDate, mediaCode, operator, typeOfMedia, vesselsUsed, shootsTransferred, contamination } = req.body;
+    const { transferDate, stageNumber, batchName, mediaCode, cropName, noOfVessels, noOfShoots, operatorName, mortality, remark } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO subculturing (transfer_date, media_code, operator, type_of_media, vessels_used, shoots_transferred, contamination) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [transferDate, mediaCode, operator, typeOfMedia, vesselsUsed, shootsTransferred, contamination]
+      `INSERT INTO subculturing (transfer_date, stage_number, batch_name, media_code, crop_name, no_of_vessels, no_of_shoots, operator_name, mortality, remark) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+      [transferDate, stageNumber, batchName, mediaCode, cropName, noOfVessels, noOfShoots, operatorName, mortality, remark]
     );
     
     res.status(201).json(result.rows[0]);
@@ -28,13 +28,13 @@ const createSubculturing = async (req, res) => {
 const updateSubculturing = async (req, res) => {
   try {
     const { id } = req.params;
-    const { transferDate, mediaCode, operator, typeOfMedia, vesselsUsed, shootsTransferred, contamination } = req.body;
+    const { transferDate, stageNumber, batchName, mediaCode, cropName, noOfVessels, noOfShoots, operatorName, mortality, remark } = req.body;
     
     const result = await pool.query(
       `UPDATE subculturing 
-       SET transfer_date=$1, media_code=$2, operator=$3, type_of_media=$4, vessels_used=$5, shoots_transferred=$6, contamination=$7, updated_at=CURRENT_TIMESTAMP 
-       WHERE id=$8 RETURNING *`,
-      [transferDate, mediaCode, operator, typeOfMedia, vesselsUsed, shootsTransferred, contamination, id]
+       SET transfer_date=$1, stage_number=$2, batch_name=$3, media_code=$4, crop_name=$5, no_of_vessels=$6, no_of_shoots=$7, operator_name=$8, mortality=$9, remark=$10, updated_at=CURRENT_TIMESTAMP 
+       WHERE id=$11 RETURNING *`,
+      [transferDate, stageNumber, batchName, mediaCode, cropName, noOfVessels, noOfShoots, operatorName, mortality, remark, id]
     );
     
     if (result.rows.length === 0) {

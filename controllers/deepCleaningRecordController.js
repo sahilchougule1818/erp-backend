@@ -1,22 +1,22 @@
 const pool = require('../config/db');
 
-const getCleaningRecord = async (req, res) => {
+const getDeepCleaningRecord = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM cleaning_record ORDER BY date DESC, id DESC');
+    const result = await pool.query('SELECT * FROM deep_cleaning_record ORDER BY date DESC, id DESC');
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
-const createCleaningRecord = async (req, res) => {
+const createDeepCleaningRecord = async (req, res) => {
   try {
-    const { date, operatorName, areaCleaned } = req.body;
+    const { date, operator, instrumentCleaned } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO cleaning_record (date, operator_name, area_cleaned) 
+      `INSERT INTO deep_cleaning_record (date, operator, instrument_cleaned) 
        VALUES ($1, $2, $3) RETURNING *`,
-      [date, operatorName, areaCleaned]
+      [date, operator, instrumentCleaned]
     );
     
     res.status(201).json(result.rows[0]);
@@ -25,16 +25,16 @@ const createCleaningRecord = async (req, res) => {
   }
 };
 
-const updateCleaningRecord = async (req, res) => {
+const updateDeepCleaningRecord = async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, operatorName, areaCleaned } = req.body;
+    const { date, operator, instrumentCleaned } = req.body;
     
     const result = await pool.query(
-      `UPDATE cleaning_record 
-       SET date=$1, operator_name=$2, area_cleaned=$3, updated_at=CURRENT_TIMESTAMP 
+      `UPDATE deep_cleaning_record 
+       SET date=$1, operator=$2, instrument_cleaned=$3, updated_at=CURRENT_TIMESTAMP 
        WHERE id=$4 RETURNING *`,
-      [date, operatorName, areaCleaned, id]
+      [date, operator, instrumentCleaned, id]
     );
     
     if (result.rows.length === 0) {
@@ -47,10 +47,10 @@ const updateCleaningRecord = async (req, res) => {
   }
 };
 
-const deleteCleaningRecord = async (req, res) => {
+const deleteDeepCleaningRecord = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query('DELETE FROM cleaning_record WHERE id=$1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM deep_cleaning_record WHERE id=$1 RETURNING *', [id]);
     
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Record not found' });
@@ -62,4 +62,4 @@ const deleteCleaningRecord = async (req, res) => {
   }
 };
 
-module.exports = { getCleaningRecord, createCleaningRecord, updateCleaningRecord, deleteCleaningRecord };
+module.exports = { getDeepCleaningRecord, createDeepCleaningRecord, updateDeepCleaningRecord, deleteDeepCleaningRecord };

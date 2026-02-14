@@ -11,12 +11,12 @@ const getIncubation = async (req, res) => {
 
 const createIncubation = async (req, res) => {
   try {
-    const { subcultureDate, mediaCode, operator, typeOfMedia, vesselsCount, shootsCount, growthStatus, contamination } = req.body;
+    const { subcultureDate, stage, batchName, mediaCode, operatorName, cropName, noOfVessels, noOfShoots, temp, humidity, photoPeriod, lightIntensity } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO incubation (subculture_date, media_code, operator, type_of_media, vessels_count, shoots_count, growth_status, contamination) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [subcultureDate, mediaCode, operator, typeOfMedia, vesselsCount, shootsCount, growthStatus, contamination]
+      `INSERT INTO incubation (subculture_date, stage, batch_name, media_code, operator_name, crop_name, no_of_vessels, no_of_shoots, temp, humidity, photo_period, light_intensity) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
+      [subcultureDate, stage, batchName, mediaCode, operatorName, cropName, noOfVessels, noOfShoots, temp, humidity, photoPeriod, lightIntensity]
     );
     
     res.status(201).json(result.rows[0]);
@@ -28,13 +28,13 @@ const createIncubation = async (req, res) => {
 const updateIncubation = async (req, res) => {
   try {
     const { id } = req.params;
-    const { subcultureDate, mediaCode, operator, typeOfMedia, vesselsCount, shootsCount, growthStatus, contamination } = req.body;
+    const { subcultureDate, stage, batchName, mediaCode, operatorName, cropName, noOfVessels, noOfShoots, temp, humidity, photoPeriod, lightIntensity } = req.body;
     
     const result = await pool.query(
       `UPDATE incubation 
-       SET subculture_date=$1, media_code=$2, operator=$3, type_of_media=$4, vessels_count=$5, shoots_count=$6, growth_status=$7, contamination=$8, updated_at=CURRENT_TIMESTAMP 
-       WHERE id=$9 RETURNING *`,
-      [subcultureDate, mediaCode, operator, typeOfMedia, vesselsCount, shootsCount, growthStatus, contamination, id]
+       SET subculture_date=$1, stage=$2, batch_name=$3, media_code=$4, operator_name=$5, crop_name=$6, no_of_vessels=$7, no_of_shoots=$8, temp=$9, humidity=$10, photo_period=$11, light_intensity=$12, updated_at=CURRENT_TIMESTAMP 
+       WHERE id=$13 RETURNING *`,
+      [subcultureDate, stage, batchName, mediaCode, operatorName, cropName, noOfVessels, noOfShoots, temp, humidity, photoPeriod, lightIntensity, id]
     );
     
     if (result.rows.length === 0) {

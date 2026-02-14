@@ -11,12 +11,12 @@ const getAutoclaveCycles = async (req, res) => {
 
 const createAutoclaveCycle = async (req, res) => {
   try {
-    const { date, mediaCode, operator, typeOfMedia, autoclaveOn, mediaLoading, pressure, off, open, mediaTotal, remark } = req.body;
+    const { date, mediaCode, operatorName, typeOfMedia, autoclaveOnTime, mediaLoadingTime, pressureTime, offTime, openTime, mediaTotal, remark } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO autoclave_cycles (date, media_code, operator, type_of_media, autoclave_on, media_loading, pressure, off, open, media_total, remark) 
+      `INSERT INTO autoclave_cycles (date, media_code, operator_name, type_of_media, autoclave_on_time, media_loading_time, pressure_time, off_time, open_time, media_total, remark) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
-      [date, mediaCode, operator, typeOfMedia, autoclaveOn, mediaLoading, pressure, off, open, mediaTotal, remark]
+      [date, mediaCode, operatorName, typeOfMedia, autoclaveOnTime, mediaLoadingTime, pressureTime, offTime, openTime, mediaTotal, remark]
     );
     
     res.status(201).json(result.rows[0]);
@@ -28,13 +28,13 @@ const createAutoclaveCycle = async (req, res) => {
 const updateAutoclaveCycle = async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, mediaCode, operator, typeOfMedia, autoclaveOn, mediaLoading, pressure, off, open, mediaTotal, remark } = req.body;
+    const { date, mediaCode, operatorName, typeOfMedia, autoclaveOnTime, mediaLoadingTime, pressureTime, offTime, openTime, mediaTotal, remark } = req.body;
     
     const result = await pool.query(
       `UPDATE autoclave_cycles 
-       SET date=$1, media_code=$2, operator=$3, type_of_media=$4, autoclave_on=$5, media_loading=$6, pressure=$7, off=$8, open=$9, media_total=$10, remark=$11, updated_at=CURRENT_TIMESTAMP 
+       SET date=$1, media_code=$2, operator_name=$3, type_of_media=$4, autoclave_on_time=$5, media_loading_time=$6, pressure_time=$7, off_time=$8, open_time=$9, media_total=$10, remark=$11, updated_at=CURRENT_TIMESTAMP 
        WHERE id=$12 RETURNING *`,
-      [date, mediaCode, operator, typeOfMedia, autoclaveOn, mediaLoading, pressure, off, open, mediaTotal, remark, id]
+      [date, mediaCode, operatorName, typeOfMedia, autoclaveOnTime, mediaLoadingTime, pressureTime, offTime, openTime, mediaTotal, remark, id]
     );
     
     if (result.rows.length === 0) {
