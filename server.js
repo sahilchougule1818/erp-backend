@@ -17,12 +17,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // CORS configuration for production
-const allowedOrigins = process.env.NODE_ENV === 'production' 
-  ? ['https://yourdomain.com'] // Replace with your production domain
-  : ['http://localhost:5173', 'http://localhost:5001', 'http://localhost:3000'];
-
 app.use(cors({
-  origin: allowedOrigins,
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
