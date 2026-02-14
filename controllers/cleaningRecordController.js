@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const getQualityControl = async (req, res) => {
+const getCleaningRecord = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM quality_control ORDER BY inspection_date DESC, id DESC');
     res.json(result.rows);
@@ -9,7 +9,7 @@ const getQualityControl = async (req, res) => {
   }
 };
 
-const createQualityControl = async (req, res) => {
+const createCleaningRecord = async (req, res) => {
   try {
     const { inspectionDate, mediaCode, batchNumber, inspector, qualityStatus, contaminationRate, remarks } = req.body;
     
@@ -25,7 +25,7 @@ const createQualityControl = async (req, res) => {
   }
 };
 
-const updateQualityControl = async (req, res) => {
+const updateCleaningRecord = async (req, res) => {
   try {
     const { id } = req.params;
     const { inspectionDate, mediaCode, batchNumber, inspector, qualityStatus, contaminationRate, remarks } = req.body;
@@ -47,7 +47,7 @@ const updateQualityControl = async (req, res) => {
   }
 };
 
-const deleteQualityControl = async (req, res) => {
+const deleteCleaningRecord = async (req, res) => {
   try {
     const { id } = req.params;
     const result = await pool.query('DELETE FROM quality_control WHERE id=$1 RETURNING *', [id]);
@@ -62,4 +62,4 @@ const deleteQualityControl = async (req, res) => {
   }
 };
 
-module.exports = { getQualityControl, createQualityControl, updateQualityControl, deleteQualityControl };
+module.exports = { getCleaningRecord, createCleaningRecord, updateCleaningRecord, deleteCleaningRecord };
