@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
     
     if (user.rows.length === 0) {
       return res.status(401).json({ message: 'Invalid credentials' });
@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
     }
     
     const token = jwt.sign(
-      { id: user.rows[0].id, email: user.rows[0].email, role: user.rows[0].role },
+      { id: user.rows[0].id, username: user.rows[0].username, role: user.rows[0].role },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -28,8 +28,7 @@ router.post('/login', async (req, res) => {
       token,
       user: {
         id: user.rows[0].id,
-        email: user.rows[0].email,
-        name: user.rows[0].name,
+        username: user.rows[0].username,
         role: user.rows[0].role
       }
     });
