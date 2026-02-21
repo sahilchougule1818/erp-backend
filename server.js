@@ -14,6 +14,8 @@ const deepCleaningRoutes = require('./routes/deepCleaningRecord');
 const mortalityRoutes = require('./routes/mortalityRecord');
 const dashboardRoutes = require('./routes/dashboard');
 const operatorsRoutes = require('./routes/operators');
+const outdoorRoutes = require('./routes/outdoor');
+const batchRoutes = require('./routes/batches');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -38,6 +40,8 @@ app.use('/api/indoor/cleaning-record', qualityControlRoutes);
 app.use('/api/indoor/deep-cleaning-record', deepCleaningRoutes);
 app.use('/api/indoor/mortality-record', mortalityRoutes);
 app.use('/api/indoor/dashboard', dashboardRoutes);
+app.use('/api/outdoor', outdoorRoutes);
+app.use('/api/batches', batchRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'ERP Backend API is running', environment: process.env.NODE_ENV });

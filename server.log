@@ -1,0 +1,5 @@
+
+> erp-backend@1.0.0 dev
+> node -r dotenv/config server.js dotenv_config_path=.env.local
+
+Server running on port 3001 in development mode
