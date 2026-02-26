@@ -14,7 +14,7 @@ const createCleaningRecord = async (req, res) => {
     const { date, operatorName, areaCleaned } = req.body;
     
     const result = await pool.query(
-      `INSERT INTO cleaning_record (date, operator_name, area_cleaned) 
+      `INSERT INTO cleaning_record (date, operator_name, area) 
        VALUES ($1, $2, $3) RETURNING *`,
       [date, operatorName, areaCleaned]
     );
@@ -32,7 +32,7 @@ const updateCleaningRecord = async (req, res) => {
     
     const result = await pool.query(
       `UPDATE cleaning_record 
-       SET date=$1, operator_name=$2, area_cleaned=$3, updated_at=CURRENT_TIMESTAMP 
+       SET date=$1, operator_name=$2, area=$3, updated_at=CURRENT_TIMESTAMP 
        WHERE id=$4 RETURNING *`,
       [date, operatorName, areaCleaned, id]
     );
